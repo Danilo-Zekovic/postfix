@@ -67,7 +67,7 @@ function getToken() {
         operators.push(x);
       }else if(sVal(operators.peek()) == sVal(x)){	      //6
 	print(6 + operators.peek());
-        postStr == postStr + operators.pop();
+        postStr = postStr + operators.pop();
 	print(6.1 + operators.peek() + postStr);
 	operators.push(x);
 	print(6.2 + operators.peek());
