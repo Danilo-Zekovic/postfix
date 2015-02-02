@@ -51,46 +51,7 @@ function getToken() {
 
     // if it is not a number
     if(isNaN(x)){
-      // if stack empty or "(" is at the top push operator to stack
-      if (operators.length() == 0 || operators.peek() == '('){  //2
-	print(2);
-        operators.push(x);
-      // if "(" push it to stack
-      }else if (x == '('){   // 3
-        print(3);
-        operators.push(x); 
-      // if ")" pop the stack til "("
-      }else if (x == ')') {       //4
-	print(4);
-	var y = operators.pop();
-        while( y != '('){
-	  postStr = postStr + y;
-	  y = operators.pop();
-	}
-      // if incoming symbol has higher precedence then the top of the stack
-      // push it to the stack
-      }else if (sVal(operators.peek()) < sVal(x) ){     // 5
-	print(5);
-        operators.push(x);
-      // if incoming symbo has same precedence as the top of the stack
-      // pop it and then push the new one
-      }else if(sVal(operators.peek()) == sVal(x)){	      //6
-	print(6 + operators.peek());
-        postStr = postStr + operators.pop();
-	print(6.1 + operators.peek() + postStr);
-	operators.push(x);
-	print(6.2 + operators.peek());
-      // if the incoming symbol has lower precedence then the top of stack
-      // pop the stack til it is not higher anymore
-      }else if(sVal(operators.peek()) > sVal(x)){        // 7
-	print(7);
-        while(sVal(operators.peek()) > sVal(x) && operators.length != 0){
-	  print(7.1);
-	  postStr = postStr + operators.pop();
-	}
-	operators.push(x);
-      }
-
+      postStr = character(operators,x,postStr);
     }else{         // if it is
       //print("is number " + x);
       postStr = postStr + " " + x;
@@ -107,7 +68,7 @@ function getToken() {
 
 
 
-
+// returns the precedence level of operation
 function sVal(symbol){
   if(symbol == '+' || symbol == '-'){
     return 0;
@@ -115,6 +76,59 @@ function sVal(symbol){
     return 1;
   }
 }
+
+// function to deal with operations
+// 
+var character = function(operators, x, postStr){
+  // if symbol is not pushed or added to string it stays true 
+  var notSorted = true; 
+  // loop until character is sorted
+  while (notSorted){
+      // if stack empty or "(" is at the top push operator to stack
+      if (operators.length() == 0 || operators.peek() == '('){  //2
+	print(2);
+        operators.push(x);
+	notSorted = false;
+      // if "(" push it to stack
+      }else if (x == '('){   // 3
+        print(3);
+        operators.push(x);
+        notSorted = false;	
+      // if ")" pop the stack til "("
+      }else if (x == ')') {       //4
+	print(4);
+	var y = operators.pop();
+        while( y != '('){
+	  postStr = postStr + y;
+	  y = operators.pop();
+	}
+	notSorted = false;
+      // if incoming symbol has higher precedence then the top of the stack
+      // push it to the stack
+      }else if (sVal(operators.peek()) < sVal(x) ){     // 5
+	print(5);
+        operators.push(x);
+	notSorted = false;
+      // if incoming symbo has same precedence as the top of the stack
+      // pop it and then push the new one
+      }else if(sVal(operators.peek()) == sVal(x)){	      //6
+	print(6 + operators.peek());
+        postStr = postStr + operators.pop();
+	print(6.1 + operators.peek() + postStr);
+	operators.push(x);
+	print(6.2 + operators.peek());
+	notSorted = false;
+      // if the incoming symbol has lower precedence then the top of stack
+      // pop the stack til it is not higher anymore and
+      // repeat other steps
+      }else if(sVal(operators.peek()) > sVal(x)){        // 7
+	print(7);
+        print(7.1);
+	postStr = postStr + operators.pop();
+      } // end else if
+  }// end while
+      return postStr;
+} // end function
 
 
 
