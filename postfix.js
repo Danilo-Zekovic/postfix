@@ -38,23 +38,28 @@ function clear() {
   this.top = 0;
 }
 //-------------------------------------------
-
+// function to turn infix to postfix
 function getToken() {
   print("getToken");
-  var postStr = "";
-  var operators = new Stack();
+  var postStr = "";   // create an empty string to store final values
+  // stack to push operators and pop them when needed
+  var operators = new Stack(); 
+  // loop through all the characters in inputed string
   for (var i = 0; i<input.length; ++i){
-    var x = input.charAt(i); 
+    var x = input.charAt(i); // get character by character
     print("x: " + x);
+
     // if it is not a number
     if(isNaN(x)){
-      
+      // if stack empty or "(" is at the top push operator to stack
       if (operators.length() == 0 || operators.peek() == '('){  //2
 	print(2);
         operators.push(x);
+      // if "(" push it to stack
       }else if (x == '('){   // 3
         print(3);
         operators.push(x); 
+      // if ")" pop the stack til "("
       }else if (x == ')') {       //4
 	print(4);
 	var y = operators.pop();
@@ -62,15 +67,21 @@ function getToken() {
 	  postStr = postStr + y;
 	  y = operators.pop();
 	}
+      // if incoming symbol has higher precedence then the top of the stack
+      // push it to the stack
       }else if (sVal(operators.peek()) < sVal(x) ){     // 5
 	print(5);
         operators.push(x);
+      // if incoming symbo has same precedence as the top of the stack
+      // pop it and then push the new one
       }else if(sVal(operators.peek()) == sVal(x)){	      //6
 	print(6 + operators.peek());
         postStr = postStr + operators.pop();
 	print(6.1 + operators.peek() + postStr);
 	operators.push(x);
 	print(6.2 + operators.peek());
+      // if the incoming symbol has lower precedence then the top of stack
+      // pop the stack til it is not higher anymore
       }else if(sVal(operators.peek()) > sVal(x)){        // 7
 	print(7);
         while(sVal(operators.peek()) > sVal(x) && operators.length != 0){
@@ -80,24 +91,7 @@ function getToken() {
 	operators.push(x);
       }
 
-
-
-/*
-      // something
-      //print("not # " + x);
-      if(x == '*' || x == '/'){
-        operators.push(x);
-      }else{
-        if(operators.peek()=='*' || operators.peek()=='/'){
-	  //sdfsd
-	  postStr = postStr + operators.pop();
-	  operators.push(x); 
-	}else{
-	  operators.push(x);
-	}       
-      }*/
     }else{         // if it is
-      //sadasd
       //print("is number " + x);
       postStr = postStr + " " + x;
     }
