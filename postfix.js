@@ -41,6 +41,7 @@ function clear() {
 // function to turn infix to postfix
 function getToken() {
   print("getToken");
+  var number = "";
   var postStr = "";   // create an empty string to store final values
   // stack to push operators and pop them when needed
   var operators = new Stack(); 
@@ -48,16 +49,20 @@ function getToken() {
   for (var i = 0; i<input.length; ++i){
     var x = input.charAt(i); // get character by character
     print("x: " + x);
-
+    if( x == " "){
+      // do nothing 
+      continue;
     // if it is not a number
-    if(isNaN(x)){
+    }else if(isNaN(x)){
+      postStr = postStr + " " + number;
       postStr = character(operators,x,postStr);
+      number = "";
     }else{         // if it is
-      //print("is number " + x);
-      postStr = postStr + " " + x;
+      print("is number " + x);
+      number = number + x;
     }
   }
-  
+  postStr = postStr + " " + number;
   // empty the stack and add all of the operators to the string
   print(operators.length());
   while (operators.length() >  0){
