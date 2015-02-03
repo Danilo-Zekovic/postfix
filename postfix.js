@@ -66,7 +66,7 @@ function getToken() {
   // empty the stack and add all of the operators to the string
   print(operators.length());
   while (operators.length() >  0){
-    postStr = postStr + operators.pop();
+    postStr = postStr + " " + operators.pop();
   }
   return postStr;
 }
@@ -104,7 +104,7 @@ var character = function(operators, x, postStr){
 	print(4);
 	var y = operators.pop();
         while( y != '('){
-	  postStr = postStr + y;
+	  postStr = postStr + " " + y;
 	  y = operators.pop();
 	}
 	notSorted = false;
@@ -118,7 +118,7 @@ var character = function(operators, x, postStr){
       // pop it and then push the new one
       }else if(sVal(operators.peek()) == sVal(x)){	      //6
 	print(6 + operators.peek());
-        postStr = postStr + operators.pop();
+        postStr = postStr + " " + operators.pop();
 	print(6.1 + operators.peek() + postStr);
 	operators.push(x);
 	print(6.2 + operators.peek());
@@ -129,15 +129,20 @@ var character = function(operators, x, postStr){
       }else if(sVal(operators.peek()) > sVal(x)){        // 7
 	print(7);
         print(7.1);
-	postStr = postStr + operators.pop();
+	postStr = postStr + " " + operators.pop();
       } // end else if
   }// end while
       return postStr;
 } // end function
 
+function evaluate(){
+  
+}
 
 
 
+
+//----------------------------------------------
 // prompt the user for expresion
 var input = readline();
 print(input);
