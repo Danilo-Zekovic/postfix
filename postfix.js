@@ -48,23 +48,24 @@ function getToken() {
   // loop through all the characters in inputed string
   for (var i = 0; i<input.length; ++i){
     var x = input.charAt(i); // get character by character
-    print("x: " + x);
+    //print("x: " + x);
     if( x == " "){
       // do nothing 
       continue;
     // if it is not a number
     }else if(isNaN(x)){
-      postStr = postStr + " " + number;
+      if(number != ""){postStr = postStr + " " + number;}
       postStr = character(operators,x,postStr);
       number = "";
     }else{         // if it is
-      print("is number " + x);
+      //print("is number " + x);
       number = number + x;
     }
+    print(postStr);
   }
-  postStr = postStr + " " + number;
+  if(number!=""){postStr = postStr + " " + number;}
   // empty the stack and add all of the operators to the string
-  print(operators.length());
+  //print(operators.length());
   while (operators.length() >  0){
     postStr = postStr + " " + operators.pop();
   }
@@ -91,27 +92,27 @@ var character = function(operators, x, postStr){
   while (notSorted){
       // if stack empty or "(" is at the top push operator to stack
       if (operators.length() == 0 || operators.peek() == '('){  //2
-	print(2);
+	print(2 + "ch");
         operators.push(x);
 	notSorted = false;
       // if "(" push it to stack
       }else if (x == '('){   // 3
-        print(3);
+        print(3 + "ch");
         operators.push(x);
         notSorted = false;	
       // if ")" pop the stack til "("
       }else if (x == ')') {       //4
-	print(4);
+	print(4 + "ch");
 	var y = operators.pop();
         while( y != '('){
 	  postStr = postStr + " " + y;
-	  y = operators.pop();
+	  y = operators.pop().trim();
 	}
 	notSorted = false;
       // if incoming symbol has higher precedence then the top of the stack
       // push it to the stack
       }else if (sVal(operators.peek()) < sVal(x) ){     // 5
-	print(5);
+	print(5 + "ch");
         operators.push(x);
 	notSorted = false;
       // if incoming symbo has same precedence as the top of the stack
@@ -127,16 +128,54 @@ var character = function(operators, x, postStr){
       // pop the stack til it is not higher anymore and
       // repeat other steps
       }else if(sVal(operators.peek()) > sVal(x)){        // 7
-	print(7);
-        print(7.1);
+	print(7 + "ch");
+        //print(7.1);
 	postStr = postStr + " " + operators.pop();
       } // end else if
   }// end while
       return postStr;
 } // end function
 
-function evaluate(){
-  
+// to evaluate the function
+var evaluate = function(string){
+  var stuff = string.trim().split(" ");
+  print(stuff);
+  var evalStack = new Stack();
+  var element = "";
+  for (var i = 0; i < stuff.length; i++){
+    element = stuff[i];
+    print(element + " this is before if");
+    if (!isNaN(element)){
+      // if it is a number push it to the stack
+      evalStack.push(element);
+    }else if(element=="*" || element=="+" || element=="-" || element=="/"){
+      //
+      var part = 0; // one part of the expression that is evaluated
+      switch(element){
+        case ("*"):
+	  part = evalStack.pop() * evalStack.pop();
+	  print(part + " part");
+	  evalStack.push(part);
+	  print(evalStack.peek() + " peek");
+	  break;
+	case ("/"):
+	  var denominator = evalStack.pop();
+	  part = evalStack.pop() / denominator;
+	  evalStack.push(part);
+	  break;
+	case ("+"):
+	  part = parseInt(evalStack.pop()) +parseInt(evalStack.pop());
+	  evalStack.push(part);
+	  break;
+	case ("-"):
+	  var subtrahend = parseInt(evalStack.pop());
+	  part = parseInt(evalStack.pop()) - subtrahend;
+	  evalStack.push(part);
+	  break;
+      }
+    }
+  }
+  print(evalStack.pop() + " final answear");
 }
 
 
@@ -146,11 +185,10 @@ function evaluate(){
 // prompt the user for expresion
 var input = readline();
 print(input);
-//var foo = new Stack();
 
-
-//foo.getToken(input);
 var foo = getToken(input);
 print(foo);
+
+evaluate(foo);
 print("the end");
 
