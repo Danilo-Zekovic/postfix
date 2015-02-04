@@ -40,7 +40,7 @@ function clear() {
 //-------------------------------------------
 // function to turn infix to postfix
 function getToken() {
-  print("getToken");
+  //print("getToken");
   var number = "";
   var postStr = "";   // create an empty string to store final values
   // stack to push operators and pop them when needed
@@ -61,7 +61,7 @@ function getToken() {
       //print("is number " + x);
       number = number + x;
     }
-    print(postStr);
+    //print(postStr);
   }
   if(number!=""){postStr = postStr + " " + number;}
   // empty the stack and add all of the operators to the string
@@ -92,43 +92,43 @@ var character = function(operators, x, postStr){
   while (notSorted){
       // if stack empty or "(" is at the top push operator to stack
       if (operators.length() == 0 || operators.peek() == '('){  //2
-	print(2 + "ch");
+	//print(2 + "ch");
         operators.push(x);
 	notSorted = false;
       // if "(" push it to stack
       }else if (x == '('){   // 3
-        print(3 + "ch");
+        //print(3 + "ch");
         operators.push(x);
         notSorted = false;	
       // if ")" pop the stack til "("
       }else if (x == ')') {       //4
-	print(4 + "ch");
+	//print(4 + "ch");
 	var y = operators.pop();
         while( y != '('){
 	  postStr = postStr + " " + y;
-	  y = operators.pop().trim();
+	  y = operators.pop();
 	}
 	notSorted = false;
       // if incoming symbol has higher precedence then the top of the stack
       // push it to the stack
       }else if (sVal(operators.peek()) < sVal(x) ){     // 5
-	print(5 + "ch");
+	//print(5 + "ch");
         operators.push(x);
 	notSorted = false;
       // if incoming symbo has same precedence as the top of the stack
       // pop it and then push the new one
       }else if(sVal(operators.peek()) == sVal(x)){	      //6
-	print(6 + operators.peek());
+	//print(6 + operators.peek());
         postStr = postStr + " " + operators.pop();
-	print(6.1 + operators.peek() + postStr);
+	//print(6.1 + operators.peek() + postStr);
 	operators.push(x);
-	print(6.2 + operators.peek());
+	//print(6.2 + operators.peek());
 	notSorted = false;
       // if the incoming symbol has lower precedence then the top of stack
       // pop the stack til it is not higher anymore and
       // repeat other steps
       }else if(sVal(operators.peek()) > sVal(x)){        // 7
-	print(7 + "ch");
+	//print(7 + "ch");
         //print(7.1);
 	postStr = postStr + " " + operators.pop();
       } // end else if
@@ -139,12 +139,12 @@ var character = function(operators, x, postStr){
 // to evaluate the function
 var evaluate = function(string){
   var stuff = string.trim().split(" ");
-  print(stuff);
+  //print(stuff);
   var evalStack = new Stack();
   var element = "";
   for (var i = 0; i < stuff.length; i++){
     element = stuff[i];
-    print(element + " this is before if");
+    //print(element + " this is before if");
     if (!isNaN(element)){
       // if it is a number push it to the stack
       evalStack.push(element);
@@ -154,9 +154,9 @@ var evaluate = function(string){
       switch(element){
         case ("*"):
 	  part = evalStack.pop() * evalStack.pop();
-	  print(part + " part");
+	 // print(part + " part");
 	  evalStack.push(part);
-	  print(evalStack.peek() + " peek");
+	  //print(evalStack.peek() + " peek");
 	  break;
 	case ("/"):
 	  var denominator = evalStack.pop();
@@ -175,7 +175,8 @@ var evaluate = function(string){
       }
     }
   }
-  print(evalStack.pop() + " final answear");
+  //print(evalStack.pop() + " final answear");
+  return evalStack.pop();
 }
 
 
@@ -184,11 +185,11 @@ var evaluate = function(string){
 //----------------------------------------------
 // prompt the user for expresion
 var input = readline();
-print(input);
+print("This is user input: " + input);
 
 var foo = getToken(input);
-print(foo);
+print("Postfix:" + foo);
 
-evaluate(foo);
+print("Expresion evaluated: " + evaluate(foo));
 print("the end");
 
