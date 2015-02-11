@@ -181,6 +181,7 @@ var evaluate = function(string){
 //------------------------------------------------------------------------
 
 // prompt the user for expresion
+print("Enter a infix expression: ");
 var input = readline();
 print("This is user input: " + input);
 
